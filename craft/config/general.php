@@ -28,14 +28,6 @@ return array(
             'baseUrl' => 'https://little-church-2021/',
         )
     ),
-
-    'lc.avidanodigital.com' => array(
-        'devMode' => false,
-        
-        'environmentVariables' => array(
-            'baseUrl'  => 'https://lc.avidanodigital.com/',
-        )
-    ),
     
     'littlechurch.org' => array(
         'devMode' => false,
