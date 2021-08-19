@@ -21,11 +21,11 @@ return array(
 		'cpTrigger' => 'grace',
     ),
 
-    'lc-craft' => array(
+    'little-church-2021' => array(
         'devMode' => true,
 
         'environmentVariables' => array(
-            'baseUrl' => 'http://lc-craft/',
+            'baseUrl' => 'https://little-church-2021/',
         )
     ),
 
