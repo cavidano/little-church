@@ -1,0 +1,147 @@
+#{$figure}{
+  @include leader(2);
+  @include trailer(2);
+}
+
+#{$figure}, 
+div.figure-two-across
+{ display: table; }
+
+#{$figure}{ 
+
+  > a{
+    position: relative;
+    display: block;
+    outline: none;
+  }
+
+  > a > span{
+    z-index: 1000;
+    position: absolute;
+  }
+}
+
+// Figures
+
+#{$figure}{
+  text-align: center;
+  @extend %centered;
+
+  img{
+    display: block;
+    min-width: 100%;
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+
+  figcaption{
+    display: table-caption;
+    caption-side: bottom;
+    text-align: left;
+    padding-left: $pad-medium;
+    padding-right: $pad-medium;
+
+    @include leader(1/2);
+
+    @include adjust-font-size-to(16px);
+    line-height: normal;
+    color: $grey;
+
+    span.credit{
+      @include adjust-font-size-to(14px);
+      display: block;
+      color: $grey;
+    }
+  }
+}
+
+#{$figure}.centered,
+#{$figure}.vertical,
+#{$figure}.horizontal{
+  figcaption{ text-align: center; }
+}
+
+
+#{$figure}.vertical,
+#{$figure}.right {
+
+  &:first-child{ margin-top: 0; }
+
+  img{ max-width: em(240px); }
+
+  @include respond-to( 'device-large') {
+    float: right;
+    margin:0 0 $pad-medium $pad-medium;
+    max-width: em(360px);
+  }
+}
+
+#{$figure}.horizontal{
+
+  img{ max-height: em(360px); }
+
+  @include respond-to( 'device-large') {
+    max-height: em(600px);
+  }
+}
+
+#{$figure}.inline{
+
+  margin: 0 0 $pad-medium 0;
+
+  img{ text-align: left; }
+  
+  text-align: left;
+}
+
+div.figure-two-across{
+  
+  figcaption{ 
+    text-align: center;
+    display: block;
+  }
+
+  > div > figure{
+    margin-top: 0;
+    width: 100%;
+  }
+
+  @include respond-to( 'device-medium') {
+    > div{ float: left; width: 50%;  }
+  }
+}
+
+// Firefox image bug fix
+
+@-moz-document url-prefix() { 
+  #{$figure}{ 
+    img{
+      width: 100%;
+    }
+  }
+}
+
+.mfp-figure figure, 
+img.mfp-img{
+  @extend %reset;
+}
+
+// YouTube embed
+
+.youtube-embed {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0; overflow: hidden;
+  max-width: 100%;
+}
+.youtube-embed iframe,
+.youtube-embed object,
+.youtube-embed embed
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+

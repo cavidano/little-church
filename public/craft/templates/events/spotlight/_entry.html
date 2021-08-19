@@ -1,0 +1,100 @@
+{% extends '_layout' %}
+
+{% block content %}
+
+<div id="content" role="main">
+
+    <div class="h-space v-space has-shadow">
+        <h1>Event Spotlight</h1>
+    </div>
+
+    {# Set parameters for prev/next buttons #}
+    {% set params = craft.venti.events().eventSpotlight(true) %}
+
+    {# Get the prev/next elements #}
+    {% set prevEntry = event.getPrev(params) %}
+    {% set nextEntry = event.getNext(params) %}
+
+    <div id="wrap-pagination" class="h-space has-shadow">
+
+        <ul id="pagination" class="gen-nav">
+
+            {% if prevEntry %}
+            <li class="previous">
+                <a href="{{ prevEntry.url }}" class="arrow-left"></a>
+            </li>
+            {% else %}
+            <li class="previous">
+                <a href="#" class="arrow-left disabled"></a>
+            </li>
+
+            {% endif %}
+            <li class="wrap-numbers">
+            <ul class="centered-list">
+                <li>        
+                    <a href="/events#cal/2017/10/*">View Calendar</a>
+                </li>
+            </ul>
+            <ul class="counter centered-list"><li><span></span></li></ul>
+            </li>
+            {% if nextEntry %}
+            <li class="next">
+                <a href="{{ nextEntry.url }}" class="arrow-right"></a>
+            </li>
+            {% else %}
+            <li class="next">
+                <a href="#" class="arrow-right disabled"></a>
+            </li>
+            {% endif %}
+        </ul>
+        
+    </div>
+
+    <article class="event-detail container-narrow h-space">
+
+        <header class="stack">
+
+            {% set group = event.getGroup() %}
+            <p class="hidden">{{ group.name }}</p>
+
+            {% include "_partials/_event_date.html" %}
+
+            <h2>{{ event.title }}</h2>
+            
+            {% if event.allDay %}
+            <p class="time hidden">All Day</p>
+            {% endif %}
+        
+        </header>
+
+        <section>
+
+            {% if event.eventImage|length %}
+
+            {% set img = "" %}
+
+            {% for asset in event.eventImage %}
+                {% set img = asset.url %}
+            {% endfor %}
+
+            {% endif %}
+
+            <figure>
+                <img src="{{ img }}" alt="{{ event.title }}">
+            </figure>
+
+            <div class="description stack">
+
+            {{ event.eventDescription }}
+                
+            </div>
+
+        </section>
+
+        {% include "_partials/_share.html" %}
+
+    </article><!-- end event-detail -->
+
+</div><!-- end content -->
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+<div id="content" role="main">
+
+    <div class="h-space v-space has-shadow">
+        <h1>Explore Our Church &amp; Grounds</h1>
+    </div>
+
+    <div id="virtual-tour">
+
+        <div id="wrap-pagination" class="h-space">
+            <ul id="pagination" class="gen-nav">
+                <li class="previous"><a href="#" class="arrow-left"></a></li>
+                <li class="wrap-numbers">
+                <ul class="numbers centered-list"></ul>
+                <ul class="counter centered-list"><li><span></span></li></ul>
+                </li>
+                <li class="next"><a href="#" class="arrow-right"></a></li>
+            </ul>
+        </div>
+
+        <div class="owl-carousel">
+
+            {% for entry in craft.entries.section('virtualTour') %}
+
+            <div class="wide-left">
+                <div class="wide">
+
+                    {% set img = "" %}
+                    {% for asset in entry.tourImage %}
+                        {% set img = asset.url %}
+                    {% endfor %}
+
+                    <img src="{{ img }}" alt="{{ entry.title }}">
+                </div>
+                <div class="short h-space v-space">
+                    <h3>{{ entry.title }}</h3>
+                    <p>{{ entry.tourDescription }}</p>
+                </div>
+            </div>
+            
+            {% endfor %}
+            
+        </div>
+
+    </div>
+
+</div><!-- end content -->
+
+{% endblock %}

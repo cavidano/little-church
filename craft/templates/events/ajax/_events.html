@@ -1,0 +1,15 @@
+{% set currentMonth = month ? month : "now"|date('n') %}
+{% set currentYear = year ? year : "now"|date('Y') %}
+
+{% set current = currentYear  ~ "-" ~ currentMonth ~ "-1" %}
+
+{% set prevMonth = current|date_modify("last day of last month")|date('U') %}
+{% set nextMonth = current|date_modify("first day of next month")|date('U') %}
+
+{% set groupIds = craft.request.getSegment(5) and craft.request.getSegment(5) != "*" ? craft.request.getSegment(5) : [] %}
+
+{#  Get Events for month between prevMonth & nextMonth #}
+{% set events = craft.venti.events().groupId(groupIds).between(prevMonth,nextMonth) %}
+
+{% include 'events/components/_eventsNav' with { prev:prevMonth, next:nextMonth, current:current, ids:[] } only %}
+{% include 'events/_partials/_eventsListBody.html' %}

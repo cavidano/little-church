@@ -1,0 +1,19 @@
+<div id="wrap-pagination" class="eventsNav has-shadow h-space">
+
+        {%- set prev -%}
+            #cal/{{ prev|date('Y') }}/{{ prev|date('n') }}/{{ ids|length ? ids|join(','): "*" }}
+        {%- endset -%}
+
+        {%- set next -%}
+            #cal/{{ next|date('Y') }}/{{ next|date('n') }}/{{ ids|length ? ids|join(','): "*" }}
+        {%- endset -%}
+
+    <ul id="pagination" class="gen-nav">
+        <li class="previous"><a href="{{ prev }}" class="arrow-left"></a></li>
+        <li class="wrap-numbers">
+        <ul class="centered-list"><li><h2>{{ current|date(' F Y') }}</h2></li></ul>
+        </li>
+        <li class="next"><a href="{{ next }}" class="arrow-right"></a></li>
+    </ul>
+
+</div>

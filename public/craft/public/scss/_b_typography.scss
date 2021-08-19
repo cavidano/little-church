@@ -1,0 +1,323 @@
+// Font declarations
+
+%fw-medium{ font-weight: 600; }
+%fw-bold{ font-weight: 700; }
+
+%primary-font{
+  font-weight: normal;
+  font-family: 'Open Sans', san-serif;
+  strong{ @extend %fw-bold; }
+}
+
+%primary-font-condensed{
+  font-weight: 700;
+  font-family: 'Open Sans Condensed', san-serif;
+}
+
+%secondary-font{
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+}
+
+body,
+input, 
+textarea,
+button
+{ @extend %primary-font; }
+
+h1,
+h4
+{ @extend %secondary-font; }
+
+h2,
+h3,
+h5
+{ @extend %primary-font-condensed; }
+
+// Set form elements text-size
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+button
+{ @include adjust-font-size-to($base-font-size); }
+
+// Establish vertical rhythm
+
+@include establish-baseline;
+$round-to-nearest-half-line: true;
+
+// Type-scale mixin
+
+@mixin apply-typescale(
+
+  $phone-fs:$base-font-size,
+  $phone-lh:0,
+  $phone-tr:0,
+
+  $tablet-fs:0,
+  $tablet-lh:0,
+  $tablet-tr:0,
+  
+  $desktop-fs:0,
+  $desktop-lh:0,
+  $desktop-tr:0,
+
+  $desktop-large-fs:0,
+  $desktop-large-lh:0,
+  $desktop-large-tr:0
+
+  ){
+
+  // 400px
+
+  @include adjust-font-size-to($phone-fs);
+
+  @if $phone-lh != 0{
+    @include adjust-leading-to($phone-lh, $phone-fs);
+  }
+
+  @if $phone-tr != 0{
+    @include trailer($phone-tr, $phone-fs);
+  }
+
+  // 700px
+
+  @if $tablet-fs != 0{
+
+    @include respond-to('device-large') {
+
+      @include adjust-font-size-to($tablet-fs);
+
+      @if $tablet-lh != 0{
+        @include adjust-leading-to($tablet-lh, $tablet-fs);
+      }
+
+      @if $tablet-tr != 0{
+        @include trailer($tablet-tr, $tablet-fs);
+      }
+    }
+  }  
+
+  // 1000px
+
+  @if $desktop-fs != 0{
+
+    @include respond-to('desktop-medium') {
+
+      @include adjust-font-size-to($desktop-fs);
+
+      @if $desktop-lh != 0{
+        @include adjust-leading-to($desktop-lh, $desktop-fs);
+      }
+
+      @if $desktop-tr != 0{
+        @include trailer($desktop-tr, $desktop-fs);
+      }
+    }
+  }  
+
+  // 1450px
+
+  @if $desktop-large-fs != 0{
+
+    @include respond-to('desktop-extra-large') {
+
+      @include adjust-font-size-to($desktop-large-fs);
+
+      @if $desktop-large-lh != 0{
+        @include adjust-leading-to($desktop-large-lh, $desktop-large-fs);
+      }
+
+      @if $desktop-large-tr != 0{
+        @include trailer($desktop-large-tr, $desktop-large-fs);
+
+      }
+    }
+  }  
+
+} // end apply-typescale
+
+// Apply type-scale to generic global fonts
+
+h1{ @include apply-typescale(
+                      /*fs, lh, tr */
+  /*phone*/           36px, 1.5, 1,
+  /*tablet*/          44px, 0, 1.5,  
+  /*desktop*/         52px, 2, 2,   
+  /*desktop-large*/   60px, 2.5,  3 
+); }
+
+h2, 
+h4.title
+{ @include apply-typescale(
+                      /*fs, lh, tr */
+  /*phone*/           26px, 1.25, 1,
+  /*tablet*/          30px, 1.5,  1,
+  /*desktop*/         34.5px, 1.5, 0,   
+  /*desktop-large*/   0, 0, 0 
+); }
+
+h3{ @include apply-typescale(
+                      /*fs, lh, tr */
+  /*phone*/           22px, 1.25, 1,
+  /*tablet*/          26px, 1.25, 1,  
+  /*desktop*/         0, 0, 0,   
+  /*desktop-large*/   0, 0, 0 
+); }
+
+h4{ @include apply-typescale(
+                      /*fs, lh, tr */
+  /*phone*/           20px, 1.25, 1,
+  /*tablet*/          22px, 1.25, 1,  
+  /*desktop*/         0, 0, 0,   
+  /*desktop-large*/   0, 0, 0
+); }
+
+h5{ @include apply-typescale(
+                      /*fs, lh, tr */
+  /*phone*/           20px, 1, 0.5,
+  /*tablet*/          0, 0, 0,  
+  /*desktop*/         0, 0, 0,   
+  /*desktop-large*/   0, 0, 0
+); }
+
+// Default sizing (do not edit)
+
+p, 
+ul,
+ol,
+pre,
+code, 
+label,
+blockquote { @include apply-typescale(
+                      /*fs, lh,   tr */
+  /*phone*/           16px, 0, 1,
+  /*tablet*/          0, 0, 0,  
+  /*desktop*/         0, 0, 0,   
+  /*desktop-large*/   0, 0, 0
+); }
+
+
+// end typescale
+
+h1, 
+h2, 
+h3, 
+h4, 
+h5,
+p,
+#content p{
+  &:last-child,
+  &.no-margin{ margin-bottom: 0}
+  &.centered{ text-align: center; }
+}
+
+h1,
+h2
+{ text-align: center; }
+
+h1,
+h2,
+h3, 
+h4, 
+h5{   
+  @include respond-to('device-medium'){
+    > span{ display: block; }
+  }
+}
+
+// Customization
+
+
+%font-small{ 
+  @include adjust-font-size-to(14px, 0.8, 16px);
+  line-height: normal;
+}
+
+span.small{ @extend %font-small; }
+
+#content {
+  
+  p, 
+  article section > ul{ @include apply-typescale(
+                        /*fs, lh,   tr */
+    /*phone*/           16px, 0, 1,
+    /*tablet*/          18px, 0, 1.5,  
+    /*desktop*/         0, 0, 0,   
+    /*desktop-large*/   0, 0, 0
+  ); }
+
+  p.date{
+    margin-bottom: 0;
+    font-style: italic;
+  }
+
+  article {
+
+    h2, h3{ text-align: left; }
+
+    section p,
+    section > ul:not(.gen-nav){ @include apply-typescale(
+                          /*fs, lh,   tr */
+      /*phone*/           16px, 0, 1,
+      /*tablet*/          18px, 1.125, 1.5,  
+      /*desktop*/         0, 0, 0,   
+      /*desktop-large*/   20px, 1.25, 0
+    ); }
+
+    section ul.gen-nav{ @include apply-typescale(
+                          /*fs, lh,   tr */
+      /*phone*/           16px, 0, 1,
+      /*tablet*/          0, 0, 0,  
+      /*desktop*/         0, 0, 0,   
+      /*desktop-large*/   0, 0, 0
+    ); }
+
+    section blockquote{ 
+      @extend %secondary-font;
+      padding: 0 $pad-medium;
+
+      @include apply-typescale(
+                            /*fs, lh,   tr */
+        /*phone*/           24px, 1.25, 0,
+        /*tablet*/          30px, 0, 0,  
+        /*desktop*/         0, 0, 0,   
+        /*desktop-large*/   36px, 1.75, 0
+      ); 
+    }
+
+    p.byline,
+    p.time,
+    p.footnote{ @include apply-typescale(
+                          /*fs, lh,   tr */
+      /*phone*/           16px, 0, 0,
+      /*tablet*/          0, 0, 0,  
+      /*desktop*/         0, 0, 0,   
+      /*desktop-large*/   0, 0, 0
+    ); }
+
+  }
+}
+
+#graphic-feature h4{ @include apply-typescale(
+                      /*fs, lh, tr */
+  /*phone*/           30px, 1.5,  1,
+  /*tablet*/          38px, 2, 1.5,  
+  /*desktop*/         0, 0, 0,   
+  /*desktop-large*/   46px, 2.25, 1.5 
+); }
+
+// Global Vertical Rhythm Adjustments
+
+// figure,
+li > p:last-child,
+ul.indented-links,
+ul.gen-list
+{
+  @include trailer(1/2);
+  @include respond-to('device-large') {
+    @include trailer(1);
+  }
+}

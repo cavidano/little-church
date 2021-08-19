@@ -1,0 +1,202 @@
+
+// body img:not(.do-not-hide){ display: none !important; }
+
+$opacity: 0.8;
+
+// Milestone colors
+
+$mc-slate    : #2b3945;
+$mc-green    : #80c242;
+$mc-blue     : #007dfa;
+
+// Toolbar
+
+#milestone-toolbar,
+#milestone-toolbar button,
+#milestone-toolbar .btn,
+#baseline, 
+{
+  @include transition-property(opacity, margin);
+  @include transition-duration($default-transition-speed);
+  @include opacity(0);
+}
+
+#milestone-toolbar.active,
+#baseline.active, {
+  @include opacity(1); 
+  margin:0;
+}
+
+#milestone-toolbar{
+  position: fixed;
+  top:0;
+  left:0;
+  height: 100%;
+  z-index: 50001;
+  margin-left: -2em;
+  background-color: $blue;
+  padding: $pad-small;
+
+  @include box-shadow(0 0 24px 0 rgba(black, 0.5));
+
+  ul > li{  margin-top: $default-border-width; }
+
+  button, 
+  .btn{
+    display: block;
+    text-align: center;
+    @include trailer(1/2);
+
+    border: $default-border-width solid white;
+    background: none;
+    color: white;
+    > span{ color: white; } 
+    @include opacity(1);
+
+    &:hover{
+      @include opacity(0.5);
+    }
+  }
+}
+
+$baseline-height: 8000px;
+ 
+#baseline{
+  width:100%;
+  height: $baseline-height;
+  margin-top: -$baseline-height;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 50000;
+}
+
+// Verticle rhythm
+
+.vr{ 
+  @if $round-to-nearest-half-line {
+    @include baseline-grid-background($base-line-height/2, fade-out($mc-blue, $opacity));
+  } @else {
+    @include baseline-grid-background($base-line-height, fade-out($mc-blue, $opacity));
+  }
+}
+
+// Font backgrounds
+
+  h1:not(.title), h2, h3, h4, h5 { 
+    @include transition-property(background-color);
+    @include transition-duration($default-transition-speed);
+  }
+
+  h1:not(.title).highlight{ background-color:fade-out(blue, $opacity); }
+  h2.highlight{ background-color:fade-out(green, $opacity); }
+  h3.highlight{ background-color:fade-out(yellow, $opacity); }
+  h4.highlight{ background-color:fade-out(orange, $opacity); }
+  h5.highlight{ background-color:fade-out(red, $opacity); }
+  p.highlight{ background-color:fade-out(grey, $opacity); }
+  li.highlight{ background-color:fade-out(tan, $opacity); }
+
+// .container-wide{ background:fade-out(red , $opacity); }
+// .container-short{ background:fade-out(royalblue , $opacity); }
+
+// p, ul, ol, blockquote{ background: fade-out(purple, $opacity); }
+
+// figure{ background:fade-out(grey, $opacity); } 
+
+// .h-space{ background:fade-out(red , $opacity); }
+// .v-space{ background:fade-out(royalblue , $opacity); }
+
+// %color-my-background{
+//   div:nth-child(1) { background:fade-out(black, $opacity); }
+//   div:nth-child(2) { background:fade-out(blue, $opacity); }
+//   div:nth-child(3) { background:fade-out(purple, $opacity); }
+//   div:nth-child(4) { background:fade-out(red, $opacity); }
+//   div:nth-child(5) { background:fade-out(orange, $opacity); }
+//   div:nth-child(6) { background:fade-out(pink, $opacity); }
+//   div:nth-child(7) { background:fade-out(tan, $opacity); }
+//   div:nth-child(8) { background:fade-out(grey, $opacity); }
+//   div:nth-child(9) { background:fade-out(black, $opacity); }
+// }
+
+// .columns{
+//   div.two-across, 
+//   div.three-across, 
+//   div.four-across,
+//   div.six-across,
+//   div.wide-left, 
+//   div.wide-right
+//   { 
+//     @extend %color-my-background;
+//   }
+// }
+
+// %color-my-table{
+//   td:nth-child(1) { background:fade-out(black, $opacity); }
+//   td:nth-child(2) { background:fade-out(blue, $opacity); }
+//   td:nth-child(3) { background:fade-out(purple, $opacity); }
+//   td:nth-child(4) { background:fade-out(red, $opacity); }
+//   td:nth-child(5) { background:fade-out(orange, $opacity); }
+//   td:nth-child(6) { background:fade-out(pink, $opacity); }
+//   td:nth-child(7) { background:fade-out(tan, $opacity); }
+//   td:nth-child(8) { background:fade-out(grey, $opacity); }
+//   td:nth-child(9) { background:fade-out(black, $opacity); }
+// }
+
+// table.generic-table tr{
+//   @extend %color-my-table;
+// }
+
+@include respond-to('device-small') {
+  #{$global-header}{ border-top: 12px solid grey; }
+} /* end device-small (400) */  
+
+@include respond-to('device-medium') {
+  #{$global-header}{ border-top: 12px solid blue; }
+} /* end device-medium (550) */  
+
+@include respond-to('device-large') {
+  #{$global-header}{ border-top: 12px solid purple; }
+} /* end device-large (700) */  
+
+@include respond-to('desktop-small') {
+  #{$global-header}{ border-top: 12px solid red; }  
+} /* end desktop-small (850) */  
+
+@include respond-to('desktop-medium') {
+  #{$global-header}{ border-top: 12px solid orange; }
+} /* end desktop-large (1000) */ 
+
+@include respond-to('desktop-large') {
+  #{$global-header}{ border-top: 12px solid tan; }
+} /* end desktop-large (1200) */ 
+
+@include respond-to('desktop-extra-large') {
+  #{$global-header}{ border-top: 12px solid black; }
+} /* end desktop-large (1200) */ 
+
+// div.wide-right{
+//   aside{
+//     background: fade-out(yellow, 0.4);
+//   }
+// }
+
+// div.wide-right.aside-above{
+//   aside{
+//     background: fade-out(green, 0.4);
+//   }
+// }
+
+// div.wide-right{
+//   .wide{
+//     background: fade-out(purple, 0.4);
+//   }
+// }
+
+// div.wide-right.aside-above{
+//   .wide{
+//     background: fade-out(blue, 0.4);
+//   }
+// }
+
+// article section{ background: fade-out(yellow, 0.5); }
+// article footer{ background: fade-out(green, 0.5); }

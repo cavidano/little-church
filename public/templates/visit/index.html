@@ -1,0 +1,87 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+<div id="content" role="main">
+
+    <div class="h-space v-space has-shadow">
+        <h1>{{ entry.title }}</h1>
+    </div>
+
+    <article class="visit">
+
+		<div class="wide-left">
+
+			<div class="wide">
+
+                <section class="h-space">
+
+                    {% if entry.hero | length %}
+                    
+                    {% set img = "" %}
+
+                    {% for asset in entry.hero %}
+                        {% set img = asset.url %}
+                    {% endfor %}
+
+                    <figure class="hero">
+                        <img src="{{ img }}" alt="{{ entry.altAttribute }}">
+                        {% if entry.photoCredit|length %}
+                        <figcaption><span class="credit">photo by {{ entry.photoCredit }}</span></figcaption>
+                        {% endif %}
+                    </figure>
+
+                    {% endif %}
+
+                </section>
+
+                <section class="h-space v-space">
+                    {{ entry.body }}
+                </section>
+				
+			</div>
+
+			<div class="short"> 
+
+                <div id="getting-here">
+
+                    <div class="map">
+
+                        <a href="https://www.google.com/search?q=the%20church%20of%20the%20transfiguration&oq=The+&aqs=chrome.0.69i59j69i61l3j69i65j69i59.1911j0j4&sourceid=chrome&ie=UTF-8&npsic=0&rflfq=1&rlha=0&rllag=40730031,-73992550,1780&tbm=lcl&rldimm=5043994040703256433&ved=0ahUKEwjYgb7Mw73WAhWK6CYKHYpICpoQvS4IQzAB&rldoc=1&tbs=lrf:!2m4!1e17!4m2!17m1!1e2!2m1!1e2!3sIAE,lf:1,lf_ui:1#rlfi=hd:;si:5043994040703256433;mv:!1m3!1d14090.479776030843!2d-73.98597869999998!3d40.74525910000001!3m2!1i964!2i895!4f13.1" target="_blank">
+
+                        <img src="https://maps.googleapis.com/maps/api/staticmap?
+                        &center=40.745191, -73.985870
+                        &zoom=15
+                        &size=640x420
+                        &maptype=roadmap
+                        &markers=color:greeen%7Clabel:C%7C40.745191,-73.985870
+                        &key=AIzaSyBMukzRcxV0QEUWhIAQiDALNq0PoVqyghs" alt="The Church of The Transfiguration Location">
+
+                        </a>
+
+                    </div>
+
+                    <div class="directions h-space v-space">
+        
+                        <h4>{{ entry.directionsTitle }}</h4>
+                        <p><strong>By subway:</strong> {{ entry.bySubway }}</p>
+                        <p><strong>By bus:</strong> {{ entry.byBus }}</p>                        
+        
+                        <div class="wheelchair-access">
+                            <img src="/images/wheelchair-access.svg" alt="Wheelchair Access">
+                            <p>The Church and Garden is <br>wheelchair accessible</p>
+                        </div>
+
+                    </div>
+
+                </div>
+                
+			</div>
+			
+		</div>
+
+    </article>
+	
+</div><!-- end content -->
+
+{% endblock %}

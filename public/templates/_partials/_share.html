@@ -1,0 +1,28 @@
+<footer id="share" class="h-space v-space">
+    <p>Share</p>
+    <ul class="centered-list">
+        <li>
+            {% set options = {
+                'content': {
+                    'facebook': {
+                      'item-type': 'image',
+                      'value': '/images/btn-share-facebook.svg',
+                      'class': 'facebook',
+                    },
+                    'twitter': {
+                      'item-type': 'image',
+                      'value': '/images/btn-share-twitter.svg',
+                      'class': 'twitter',
+                    },
+                    'email': {
+                      'item-type': 'image',
+                      'value': '/images/btn-share-email.svg',
+                      'class': 'email',
+                    }
+                }
+            } %}
+
+            {{ jSocialButtons('facebook|twitter|email', options) }}
+        </li>
+    </ul>
+</footer>

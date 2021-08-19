@@ -1,0 +1,94 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+<div id="content" role="main">
+
+    <div class="h-space v-space">
+        <h1>Our Little Blog</h1>
+    </div>
+
+	<div id="latest-post" class="h-space">
+
+		{% for entry in craft.entries.section('blog').limit(1) %}
+		
+		<div class="two-across v-align">
+
+			<div>
+                <a href="{{ entry.url }}" title="{{ entry.title }}">
+
+		            {% if entry.blogFeature | length %}
+
+		            {% set img = "" %}
+
+                    {% set img_transform = {
+                      mode: 'crop',
+                      width: 1200,
+                      height: 756,
+                      quality: 85,
+                      position: 'center-center'
+                    } %}
+
+		            {% for asset in entry.blogFeature %}
+		            	{% set img = asset.getUrl(img_transform) %}
+		            {% endfor %}
+
+					<img src="{{ img }}" alt="{{ entry.title }}">
+
+            		{% endif %}
+
+                </a>
+			</div>
+			
+			<div class="h-space v-space">
+                <a href="{{ entry.url }}" title="{{ entry.title }}">
+                    <p class="date">{{ entry.postDate.format('F d, Y') }}</p>
+                    <h2 class="no-margin">{{ entry.title }}</h2>
+                </a>
+			</div>
+			
+		</div>
+
+		{% endfor %}
+	
+	</div>
+
+	<div id="blog-posts" class="wrap-list-grid h-space stack">
+	                    
+	    <ul class="list-grid three-across archive">
+
+			{% for entry in craft.entries.section('blog') %}
+	        
+	        <li {% if loop.first == true %} class="hidden" {% endif %}>
+	            <a href="{{ entry.url }}" title="{{ entry.title }}">
+
+		            {% set img = "" %}
+
+                    {% set img_transform = {
+                      mode: 'crop',
+                      width: 1200,
+                      height: 756,
+                      quality: 85,
+                      position: 'center-center'
+                    } %}
+
+		            {% for asset in entry.blogFeature %}
+		            	{% set img = asset.getUrl(img_transform) %}
+		            {% endfor %}
+
+					<img src="{{ img }}" alt="{{ entry.title }}">
+
+	                <p class="date">{{ entry.postDate.format('F d, Y') }}</p>
+	                <h5>{{ entry.title }}</h5>
+	            </a>
+	        </li>
+			
+			{% endfor %}
+	        
+	    </ul>
+	    
+	</div>
+
+</div><!-- end content -->
+
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+<div id="content" role="main">
+
+    <article class="blog-post h-space">
+        
+        <header class="v-space">
+            <p class="date">{{ entry.postDate.format('F d, Y') }}</p>
+            <h1 class="no-margin">{{ entry.title }}</h1>
+            {% if entry.byLine | length %}
+            <p class="byline">by {{ entry.byLine }}</p>
+            {% endif %}
+        </header>
+        
+        <div class="container-narrow">
+
+            {% if entry.blogFeature | length %}
+
+            {% set img = "" %}
+
+            {% set img_transform = {
+              mode: 'crop',
+              width: 1200,
+              height: 756,
+              quality: 85,
+              position: 'center-center'
+            } %}
+
+            {% for asset in entry.blogFeature %}
+                {% set img = asset.getUrl(img_transform) %}
+            {% endfor %}
+
+            <figure class="hero">
+                <img src="{{ img }}" alt="{{ entry.altAttribute }}">
+                {% if entry.photoCredit | length %}
+                <figcaption><span class="credit">photo by {{ entry.photoCredit }}</span></figcaption>
+                {% endif %}
+            </figure>
+
+            {% endif %}
+    
+            <section class="stack">
+
+            {% for block in entry.blogArticleMatrix %}
+
+            {% switch block.type %}
+
+                {% case "paragraph" %}
+
+                    {{ block.text|replace('/<[^\\/>][^>]*><\\/[^>]+>/', '')|raw }}
+
+                {% case "figure" %}
+
+                    {% set img = block.image.first() %}
+
+                    <figure class="{{ block.orientation }}">
+
+                        {% if block.enlarge %}
+                        
+                        <a href="{{ img.getUrl() }}" title="{{ block.caption|striptags('<strong><em>')|raw }}">
+                            <span class="fa fa-search-plus"></span>
+                            <img src="{{ img.getUrl() }}" alt="{{ block.altAttribute }}">
+                        </a>
+
+                        {% else %}
+                            <img src="{{ img.getUrl() }}" alt="{{ block.altAttribute }}">
+                        {% endif %}
+                        
+                        {% if block.caption %}
+                        <figcaption>{{ block.caption|striptags('<strong><em>')|raw }}</figcaption> 
+                        {% endif %}
+
+                    </figure>
+
+                {% case "footnote" %}
+
+                <p class="footnote">{{ block.text|striptags('<strong><em>')|raw }}</p>
+
+                {% default %}
+
+                    <p>A font walks into a bar.</p>
+                    <p>The bartender says, “Hey, we don’t serve your type in here!”</p>
+            
+            {% endswitch %}
+
+            {% endfor %}
+
+            </section><!-- end narrow -->
+
+            {% include "_partials/_share.html" %}
+
+            <hr>
+
+            <div id="article-pagination">
+
+            {# Set parameters for prev/next elements list #}
+            {% set params = craft.entries.section('blog').order('postDate asc').title() %}
+
+            {# Get the prev/next elements #}
+            {% set prevEntry = entry.getPrev(params) %}
+            {% set nextEntry = entry.getNext(params) %}
+
+            {# And make sure to only output the links if the element exists #}
+            {% if prevEntry %}
+                <div class="previous v-space">
+                    <a href="{{ prevEntry.url }}" title="{{ prevEntry.title }}">
+                        <div class="arrow-left"></div>
+                        <p class="date">{{ prevEntry.postDate.format('F d, Y') }}</p>
+                        <h5>{{ prevEntry.title }}</h5>
+                    </a>
+                </div>
+            {% endif %}
+            {% if nextEntry %}
+                <div class="next v-space">
+                    <a href="{{ nextEntry.url }}" title="{{ nextEntry.title }}">
+                        <div class="arrow-right"></div>
+                        <p class="date">{{ nextEntry.postDate.format('F d, Y') }}</p>
+                        <h5>{{ nextEntry.title }}</h5>
+                    </a></div>
+            {% endif %}
+                
+            </div>
+
+         </div>
+
+    </article>
+
+</div><!-- end content -->
+
+{% endblock %}

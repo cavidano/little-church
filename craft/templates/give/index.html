@@ -1,0 +1,41 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+<div id="content" role="main">
+
+    <div class="h-space v-space">
+        <h1>Support the Little Church</h1>
+    </div>
+
+    <article class="give">
+
+		<div class="container-narrow">
+
+            <section id="give-online" class="h-space">
+                <h2>Give Online</h2>
+                
+                {{ entry.giveBody }}
+
+                <ul class="donate-buttons centered-list">
+                    <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LBXCJZRBT5XQE" title="PayPal" target="_blank"><img src="/images/btn-paypal.png"></a></li>
+                    <li><a href="https://smile.amazon.com/" title="Amazon Smile" target="_blank"><img src="/images/btn-amazon.png"></a></li>
+                    <li><a href="https://www.eservicepayments.com/cgi-bin/Vanco_ver3.vps?appver3=Fi1giPL8kwX_Oe1AO50jRqgf-igIzs7dG9PfsunHRfsS2zfZgdvtsgHvl4ll5gbek0PpduXvnt8gXUeZjQYbn0o2QT_iJF7FqkGMlzXreGI=" title="Vanco" target="_blank"><img src="/images/btn-vanco.png"></a></li>
+                </ul>
+
+            </section>
+                    
+            <section class="h-space v-space">
+
+                {{ entry.giveMusic }}
+
+            </section>
+                
+		</div>
+			
+    </article>
+	
+</div><!-- end content -->
+
+{% endblock %}
+

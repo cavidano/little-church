@@ -1,0 +1,137 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+{% from _self import errorList %}
+
+<div id="content" role="main">
+
+    <div class="h-space v-space has-shadow">
+        <h1>Contact Us</h1>
+    </div>
+
+    <div id="contact">
+
+    	<div class="wide-left">
+
+
+            <div class="short"> 
+
+                <img src="/images/contact.jpg" alt="">
+
+                <div class="h-space v-space">
+
+                    <h4>The Church of the Transfiguration</h4>
+                    <p>
+                        1 East 29th Street<br>
+                        New York, New York 10016<br>
+                    </p>
+                    <p>Parish Office: 212-684-6770</p>
+                    <p><a href="mailto:receptionist@littlechurch.org">Send us an email</a></p>
+                </div>
+            </div>
+
+    		<div class="wide h-space v-space">
+
+                <form id="contact-form"  name="contact-form" method="post"action="" accept-charset="UTF-8">
+                    
+                    {{ getCsrfInput() }}
+                    
+                    <input type="hidden" name="action" value="contactForm/sendMessage">
+                    <input type="hidden" name="toEmail" value="{{ 'carl@avidanodigital.com'|hash }}">
+
+                    <fieldset>
+
+                        <div class="form-item">
+                            <label for="name">Your Name</label>
+                            <input id="name" type="text" name="name" value="{% if message is defined %}{{ message.name }}{% endif %}">
+                            {{ message is defined and message ? errorList(message.getErrors('name')) }}
+                        </div>
+
+                         <div class="form-item {% if message is defined and message %} error {% endif %}" >
+                            <label for="fromEmail">Your Email<span class="required">*</span></label>
+                            <input id="fromEmail" type="text" name="fromEmail" value="{% if message is defined %}{{ message.fromEmail }}{% endif %}">
+                            {{ message is defined and message ? errorList(message.getErrors('fromEmail')) }}
+                        </div>
+
+                        <div class="form-item">
+                            <label for="subject">Subject</label>
+                            <input id="subject" type="text" name="subject" value="{% if message is defined %}{{ message.subject }}{% endif %}">
+                            {{ message is defined and message ? errorList(message.getErrors('subject')) }}
+                        </div>
+
+                        <div class="form-item">
+                            <label for="message">Message<span class="required">*</span></label>
+                            <textarea rows="10" cols="40" id="message" name="message">{% if message is defined %}{{ message.message }}{% endif %}</textarea>
+                            {{ message is defined and message ? errorList(message.getErrors('message')) }}
+                        </div>
+                        
+                        <button type="submit" class="blue">Send Message</button>
+
+                        <div class="form-response">
+                            <p>Your message has been sent. Thank you for contacting us!</p>
+                        </div>
+
+                    </fieldset>
+
+                </form>
+    			
+    		</div>
+
+    	</div>
+
+    </div><!-- end contact -->
+	
+</div><!-- end content -->
+
+<!-- page specific scripts -->
+
+{% includejs %}
+
+$(function(){
+    $('#contact-form').submit( function(ev) {
+
+        // Prevent the form from actually submitting
+        ev.preventDefault();
+
+        // Remove any existing error messages from previous attempts
+        $(this).find('.errors').remove();
+
+        // Get the post data
+        var data = $(this).serialize();
+
+        // Send it to the server
+        $.post('/', data, function(response) {
+
+            if (response.success) {
+                // Success
+                $('#contact-form .form-response').fadeIn('fast');
+                $('#contact-form .send').addClass('disabled');
+
+            } else {
+
+                // Loop through the errors and append to relevant fields
+                for (var fieldId in response.error) {
+
+                    // Create the <ul>
+                    var $errors = $('<ul class="errors" />');
+
+                    // Wrap the error messages in <li> tags
+                    var messages = $.map(response.error[fieldId], function(message){
+                        return '<li class="error">' + message + '</li>';
+                    });
+
+                    // Append the error messages to the ul
+                    $errors.append(messages.join(''));
+
+                    // Select the input element and append the .errors <ul> after it.
+                    $('#'+fieldId).after($errors);
+                }
+            }
+        });
+    });
+});
+
+{% endincludejs %}
+
+{% endblock %}

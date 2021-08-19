@@ -1,0 +1,6 @@
+
+{% if event.endDate|date('d') > event.startDate|date('d') %}
+	<p class="date">{{ event.startDate|date('F d') }}  - {{ event.endDate|date('d, Y') }} </p>
+{% else %}
+	<p class="date">{{ event.startDate|date('F d, Y') }}</p>
+{% endif %}  

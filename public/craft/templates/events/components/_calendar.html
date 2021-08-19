@@ -1,0 +1,14 @@
+{% set calendarParams = {
+    "events": events,
+    "month": month,
+    "year": year,
+    "locale":"en_us"
+} %}
+
+<div class="calendar" data-month="{{ month }}" data-year="{{ year }}">
+
+{% calendar calendarParams as days %}
+
+{% include 'events/_partials/_calendarBody.html' %}
+
+</div><!-- end calendar -->

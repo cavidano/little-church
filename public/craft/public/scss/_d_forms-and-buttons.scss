@@ -1,0 +1,450 @@
+// Apply defaults to form selectors
+
+.btn,
+.dd-menu,
+li.error,
+button,
+select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+label
+{
+  display: inline-block;
+  *display: inline;
+  background: none;
+  text-decoration: none;
+  padding-left: $pad-medium;
+  padding-right: $pad-medium;
+  outline: none;
+  color: black;
+}
+
+textarea{ display: block; }
+
+.btn.inline,
+button.inline,
+{ width: auto; }
+
+// Apply vertical rhythm top & bottom padding + rhythm border to all sides
+
+.btn,
+.dd-menu,
+button,
+select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea
+{
+  @extend %apply-rhythm-borders;
+  @include adjust-font-size-to(20px);
+
+  &.disabled{
+    cursor: default;
+    @include opacity(0.5);
+
+    &:hover{ @include opacity(0.5); }
+  }
+}
+
+// Button style mixin
+
+@mixin color-my-button($color:black, $border:false, $border-color:black){
+  
+  text-align: center;
+  background: $color;
+  
+  color: white; 
+  &:hover, 
+  &:visited{ color: white; }
+
+  @if $border == false{
+    border-color: transparent;
+  } @else{
+    border-color: $border-color;
+  }
+}
+
+// Apply button styles
+
+button,
+a.btn
+{ 
+  @extend %primary-font-condensed;
+  @include color-my-button;
+}
+
+button.black,
+.btn.black
+{ @include color-my-button(black); }
+
+button.white,
+.btn.white
+{ @include color-my-button(white); }
+
+button.green,
+.btn.green
+{ @include color-my-button($green); }
+
+button.purple,
+.btn.purple
+{ @include color-my-button($purple); }
+
+button.yellow,
+.btn.yellow
+{ @include color-my-button($yellow); }
+
+button.blue,
+.btn.blue
+{ @include color-my-button($blue); }
+
+// Button hover fade
+
+a.btn,
+button,
+div.share a,
+div.article-arrows > div > a
+{ 
+  @include transition-property(opacity);
+  @include transition-duration($default-transition-speed);
+
+  &:hover{
+    @include opacity(0.8);
+  }
+}
+
+// Submit button 
+
+button[type="submit"]{
+  color: white;
+  background: black;
+  border-color:transparent;
+  margin-bottom: 0;
+
+  &.blue{ background: $blue; }
+  &.red{ background: $red; }
+}
+
+// Custom Styles
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea
+{ 
+  background: white;
+  border-color: $grey-light;
+}
+
+label > span.required{
+  margin-left: $pad-small;
+  color: $red;
+}
+
+.form-item.form-send{ margin-bottom: 0; }
+
+.form-response{
+
+  display: none;
+  @include leader(1);
+  
+  p{
+    @include adjust-font-size-to(24px);
+    font-weight: bold;
+    text-align: center;
+    color: $green;
+  }
+}
+
+// Error handling
+
+ul.errors{
+  padding: 0;
+  list-style: none;
+
+  > li.error{ width: 100%; }
+}
+
+label.error,
+ul.errors > li,
+div.ctct-form-errorMessage{
+  // @extend %gibson-bold;
+  margin: 0;
+  background: $red;
+  color: white;
+  padding-top: $pad-tiny;
+  padding-bottom: $pad-tiny;
+}
+
+// Select Menus
+
+select,
+.dd-menu {
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-image:url('/images/select-arrows.png');
+  background-image:url('/images/select-arrows.svg'), none;
+  padding-right: 40px;
+}
+
+.dd-menu > span { width: auto !important; }
+
+// Inputs & textareas          
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+
+// Note: .customSelectOpen = .dd-mdenu (select) focus
+
+.customSelect.customSelectOpen,
+.customSelect.customSelectFocus
+{
+  color: tint(black, 20%);
+  border-color: fade-out($blue, 0.5);
+  // border-left-color: $green;
+}
+
+// Input placeholder
+
+$placeholder-color: $grey;
+
+::-webkit-input-placeholder { color: $placeholder-color; }
+:-ms-input-placeholder { color: $placeholder-color; }
+
+:-moz-placeholder{
+   color: $placeholder-color;
+   @include opacity(1);
+}
+
+::-moz-placeholder{
+   color: $placeholder-color;
+   @include opacity(1);
+}
+
+// Form selectors
+
+.form-item{
+
+  @include trailer(1.5); 
+
+  &:last-child{ margin-bottom: 0; }
+
+  > div > div{
+    @include trailer(1.5);
+
+    &:last-child{ margin-bottom: 0; }
+  }
+
+  @include respond-to('device-large') {
+
+    > div{
+      > div{ width: 50%; float: left; margin-bottom: 0; }
+      > div:first-child{ padding-right: $pad-small; }
+      > div:last-child{ padding-left: $pad-small; }
+    }
+  }
+}
+
+.form-item.inline{
+
+  @include respond-to('device-large'){
+
+    label, > div{ float: left; }
+
+    label{ 
+      width:25%; 
+      padding-top: $pad-small;
+      padding-bottom: $pad-small;
+      text-align: right;
+      margin: 0;
+    }
+
+    > div{ width:75%; }
+  }
+}
+
+form{
+  input[type="checkbox"],
+  input[type="radio"]{
+    float: left;
+  }
+
+  // Checkbox &  Radio holders
+
+  ul.gen-nav{
+
+    li{ 
+      display: block;
+      margin-bottom: $pad-small;
+      &:last-child{ margin: 0; }
+    }
+    
+    li > label{
+      display: inline-block;
+      *display: block;
+      width: auto;
+      padding: 0;
+      margin: 0;
+    }
+
+    li > label > input{
+      margin: 0.33em 0;
+      margin-left: 1em;
+      margin-right: 1em;
+    }
+  }
+
+} /* end form */
+
+// Newsletter form
+
+#contact-us{
+
+  input[type="text"],
+  input[type="email"]{
+    border-color: white;
+    color: $grey;
+
+    &:focus{
+      color: $grey;
+      border-color: $blue;
+      @include box-shadow(rgba($green, 0.1) 0 0 8px inset);
+    }
+
+    &.is-error{ 
+      border-color: $red;
+    }
+  }
+
+  a.link{ color: $green; }
+}
+
+// Share buttons
+
+#share{
+
+  text-align: center;
+  
+  p{
+    @extend %primary-font-condensed;
+    text-transform: uppercase;
+    @include trailer(1/2);
+  }
+
+  ul > li.share-message{ margin-right: $pad-tiny; }
+
+  ul > li > a{
+     margin:0 $pad-tiny; 
+
+    &:hover{
+      @include opacity(0.85);
+    }
+  }
+}
+
+figure > a,
+.list-grid > li > a{
+  > span{
+    padding: $pad-tiny $pad-small;
+    color: white;
+    bottom: $pad-tiny;
+    right: $pad-tiny;
+  }
+}
+
+.inline-list-left > li, 
+.inline-list-center > li{ margin-right:$pad-small; }
+.inline-list-right > li{ margin-left:$pad-small; }
+
+
+// CSS Arrows
+
+.arrow-up, 
+.arrow-right,
+.arrow-down,
+.arrow-left{
+  width: 0; 
+  height: 0;
+  @include transition-property(border-color);
+}
+
+.arrow-up {
+  border-left: $arrow-size solid transparent;
+  border-right: $arrow-size solid transparent;
+  border-bottom: $arrow-size solid $arrow-color; 
+}
+
+.arrow-right {
+  border-top: $arrow-size solid transparent;
+  border-bottom: $arrow-size solid transparent;
+  border-left: $arrow-size solid $arrow-color;
+}
+
+.arrow-down {
+  border-left: $arrow-size solid transparent;
+  border-right: $arrow-size solid transparent;
+  border-top: $arrow-size solid $arrow-color;
+}
+
+.arrow-left {
+  border-top: $arrow-size solid transparent;
+  border-bottom: $arrow-size solid transparent; 
+  border-right:$arrow-size solid $arrow-color; 
+}
+
+.arrow-up,
+.arrow-right,
+.arrow-down,
+.arrow-left,
+.arrow-right{
+  &.disabled{
+    @include opacity(0.25);
+  }
+}
+
+a.disabled{
+  cursor: default;
+}
+
+// Default previous next buttons
+
+.previous-next{
+  position: absolute;
+  left: 0;
+  right:0; 
+  top:50%;
+  margin-top: -($arrow-size * 2);
+
+  li{ cursor: pointer; }
+
+  li.previous{ float: left; }
+  li.next{ float: right; }
+}
+
+
+// Default previous next buttons
+
+$dot-size: em(12px);
+
+.dots{
+  
+  li{
+    margin: 0 $pad-tiny;
+    cursor: pointer;
+
+    > span{
+      display: block;
+      width: $dot-size;
+      height: $dot-size;
+
+      border:($default-border-width) solid white;
+      @include border-radius($dot-size / 2);
+    }
+
+    &.active > span{ background-color: white; }
+  }
+}

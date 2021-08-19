@@ -1,0 +1,78 @@
+<ul class="timeline gen-nav" data-month="{{ month }}" data-year="{{ year }}">
+
+    {# Group events by day of the month using the event's startDate as a guide #}
+
+    {% for day, dayEvents in events|group('startDate|date("M d Y")')  %}
+    
+    <li class="day">
+
+        <h5>{{ day|date('F') }} {{ day|date('d') }}</h5>
+
+        {% for event in dayEvents %}
+                 
+        {% if event.eventSpotlight %}
+
+            <a class="event-item" href="{{ event.url }}">
+
+                <span class="title"><strong>{{ event.title }}</strong></span>
+                {% if event.allDay %}
+                    <span class="time hidden">All Day</span>
+                {% else %}
+                    <span class="time">{{ event.startDate|date("g:i a") }} - {{ event.endDate|date("g:i a") }}</span>
+                {% endif %}
+
+                {% if event.eventDescription %}
+                <span class="description">
+                    {{ event.eventDescription|truncate('words', '16', '...', true) }}
+                </span>
+                {% endif %}
+            
+            </a>
+
+        {% elseif event.linkUrl %}
+
+            <a class="event-item" href="{{ event.linkUrl }}">
+
+                <span class="title"><strong>{{ event.title }}</strong></span>
+                {% if event.allDay %}
+                    <span class="time hidden">All Day</span>
+                {% else %}
+                    <span class="time">{{ event.startDate|date("g:i a") }} - {{ event.endDate|date("g:i a") }}</span>
+                {% endif %}
+
+                {% if event.eventDescription %}
+                <span class="description">
+                    {{ event.eventDescription|truncate('words', '68', '...', true) }}
+                </span>
+                {% endif %}
+            
+            </a>
+
+        {% else  %}
+
+            <span class="event-item" href="{{ event.linkUrl }}">
+
+                <span class="title"><strong>{{ event.title }}</strong></span>
+                {% if event.allDay %}
+                    <span class="time hidden">All Day</span>
+                {% else %}
+                    <span class="time">{{ event.startDate|date("g:i a") }} - {{ event.endDate|date("g:i a") }}</span>
+                {% endif %}
+
+                {% if event.eventDescription %}
+                <span class="description">
+                    {{ event.eventDescription|truncate('words', '68', '...', true) }}
+                </span>
+                {% endif %}
+
+            </span>
+
+        {% endif %}
+        
+        {% endfor %}
+
+    </li>
+
+    {% endfor %}
+
+</ul>

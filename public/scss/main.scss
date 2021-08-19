@@ -1,0 +1,952 @@
+@import "base";
+
+// Glolbal Selectors
+
+html{ background: $tan; }
+
+#wrap, 
+article.about > div.wide-left div.wide, 
+article.visit > div.wide-left div.wide,
+article.give > div.wide-left div.wide,
+#contact > div.wide-left div.wide{
+  background: white;
+  @include single-box-shadow(0, 0, 12px, 0, rgba(black, 0.25));
+}
+
+hr {
+  background: $grey-light;
+  height: $default-border-width;
+  margin-top: -$default-border-width;
+}
+
+// Global Header & Navigation
+
+// Main Navigation
+
+#menu-off-canvas nav > ul > li > a,
+#aside-nav nav > ul > li > a, 
+#toggle-menu,
+ul.main-navigation > li > a{
+    @extend %primary-font-condensed;
+}
+
+ul.main-navigation{
+  > li{ white-space: nowrap; }
+}
+
+#secondary-nav > ul > li{
+  @extend %fw-bold;
+  &.selected a{ text-decoration: underline; }
+}
+
+// Sub Navigation
+
+ul.sub,
+#menu-off-canvas nav > ul > li > ul, 
+#aside-nav nav > ul > li > ul {
+  padding: $pad-medium;
+
+  a,
+  a:hover, 
+  a:visited, 
+  ul{ color: black; }
+
+  > li > a{ @include trailer(1/4); }
+
+  > li > a{
+    @extend %fw-medium;
+    color: black;
+  }
+  
+  > li > ul{
+    list-style: disc;
+    padding-left: 18px;
+    @include trailer(1/2);
+  }
+}
+
+#menu-off-canvas > nav > ul > li.selected,
+#aside-nav > nav > ul > li.selected{
+  background-color: $green;
+
+  a,
+  a:hover, 
+  a:visited, 
+  ul{ color: white; }
+}
+
+#aside-nav nav > ul > li > ul {
+  color: white;
+  list-style: none;
+}
+
+// Off-canvas and aside menu
+
+$off-canvas-width: 16em;
+
+#menu-off-canvas ul.sub{
+  li.selected a{ text-decoration: underline; } 
+}
+
+#menu-off-canvas,
+#aside-nav{
+background: white;
+  ul, li{ margin-bottom: 0; }
+
+  // level one 
+
+  > nav,
+  > nav > ul{ overflow: visible; }
+  
+  > nav > ul > li > ul, 
+  > nav > ul > li > a{
+    @include box-shadow;
+  }
+
+  > nav > ul > li > a{
+    display: block;
+    color: $green;
+    padding: $pad-small $pad-medium; 
+    @include adjust-font-size-to(20px);
+
+    border-color: transparent;
+    margin-bottom: 0;
+
+    span.fa{ float: right; }
+  }
+
+  // level two 
+  > nav > ul > li{
+    position: relative;
+    z-index: 100;
+  }
+}
+
+@include respond-to( 'desktop-medium', max-width ) {
+
+  #menu-off-canvas,
+  #menu-off-canvas nav{
+    width: $off-canvas-width;
+    height: 100%;
+  }
+
+  #menu-off-canvas {
+    overflow: hidden;
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -$off-canvas-width;
+  }
+
+  #menu-off-canvas nav {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust:none;
+  }
+
+  #menu-off-canvas nav::-webkit-scrollbar { display: none; }
+
+  #menu-off-canvas,
+  #wrap{
+    @include transition-property(transform);
+    @include transition-duration($default-transition-speed);
+    @include translateX(0);
+  }
+
+  #menu-off-canvas.active,
+  #wrap.active
+  { @include translateX($off-canvas-width); }
+
+  #wrap.active{ width: 100%; }
+}
+
+@include respond-to( 'desktop-medium' ) {
+  #menu-off-canvas{ display: none; }
+}
+
+/* end off-canvas menu */
+
+// Sub and aside Nav
+
+#aside-nav nav > ul.sub{ 
+  padding:0;
+}
+
+// Global Header
+
+#{$global-header}{
+
+  z-index: 15000;
+  @include box-shadow;
+
+  #toggle-menu,
+  #secondary-nav li
+  { padding: $pad-tiny 0; }
+
+  #toggle-menu{
+    @include adjust-font-size-to(22px, 1.25);
+
+    display: block;
+    cursor: pointer;
+  }
+
+  #logo{ @include rhythm-padding; }
+
+  #secondary-nav, 
+  #secondary-nav ul{
+    @include rhythm-padding(0.25);
+  }
+
+  #secondary-nav{ clear: both; }
+
+  p.address,
+  #secondary-nav > ul
+  { float: right; }
+
+  p.address{
+    text-align: right;
+    float: right; 
+    @include leader(2.5);
+    margin-bottom: 0;
+  }
+  p.address span{
+    margin: 0 $pad-tiny;
+  }
+  
+
+  #secondary-nav li {
+    padding: $pad-tiny 0;
+    float: left;
+    margin-left: $pad-small;
+    &:first-child{ margin: 0; }
+  }
+
+  #secondary-nav a,
+  #secondary-nav a:hover,
+  #secondary-nav a:visited,
+  { color: black; }
+
+  ul.main-navigation > li{
+    float: left;
+    margin-left: $pad-small;
+  }
+
+  ul.main-navigation > li{
+
+    &.selected > a, 
+    &.selected > a:hover,
+    &.selected > a:visited
+    { color: $green; }
+  }
+
+  ul.main-navigation > li > a{ 
+
+    @include adjust-font-size-to(24px); 
+  }
+
+  @include respond-to( 'device-large', max-width){
+    p.address{
+      display: none;
+      float: none;
+    }
+  }
+
+  @include respond-to( 'desktop-medium', max-width){
+
+    p.address{
+      em{ display: block; }
+      span{ display: none; }
+    }
+
+    #toggle-menu{ float: left; }
+
+    #secondary-nav > ul > li > ul { display: none; }
+
+    #secondary-nav { background: $green; }
+  
+    #secondary-nav a, 
+    #secondary-nav a:hover,
+    #secondary-nav a:visited 
+    { color: white; }
+  }
+
+  @include respond-to( 'desktop-medium'){
+
+    #logo{ float: left; }
+    
+    p.address{ @include leader(1); }
+
+    #toggle-menu,
+    p.address strong 
+    { display: none; }
+  
+    #secondary-nav{
+      float: right;
+      clear: right;
+    }
+  }
+
+  @include respond-to( 'desktop-medium', max-width){
+
+    #primary-nav{
+      display: none;
+      clear: both;
+    }
+  }
+
+  @include respond-to( 'desktop-medium'){
+
+    #secondary-nav > ul > li.selected a{
+      text-decoration: none;
+      color: $green;
+    }
+    
+    #primary-nav{
+      display: block !important;
+      float: right;
+      clear: right;
+    }
+
+    ul.sub{
+      overflow: visible;
+      background: $tan;
+
+      position: absolute;
+      top: 100%;
+      left:-$pad-medium;
+      width: 15em;
+
+      @include transition-property(opacity);
+      @include transition-duration($default-transition-speed);
+      @include opacity(0);
+      @include box-shadow;
+      margin-top: -1000px;
+
+      &.active{
+        @include opacity(1);
+        margin-top: $pad-medium;
+      } 
+    }
+  }
+
+  @include respond-to('desktop-medium') {
+    ul.main-navigation > li{ margin-left: $pad-medium; }
+  }  
+  
+} /* end global-header */
+
+// Global Footer
+
+#follow-us{
+  background: $green;
+  text-align: center;
+
+  h3{ color: white; }
+
+  > div{ margin-bottom: 0; }
+
+  ul > li{
+    @include rhythm-padding(1/4);
+    margin: 0 $pad-tiny;
+  }
+}
+
+#newsletter{
+
+  @include respond-to('device-large'){
+  
+    div.form-item > div { float: left; }
+
+    div.wrap-input{ width: 66.6666%; }
+    div.wrap-button{ width: 33.3333%; }
+  }
+
+  @include respond-to('desktop-medium', max-width) { padding-bottom: 0; }
+}
+
+#global-links{
+  background: $tan;
+
+  div.wide{
+    ul.gen-nav > li > a > h5{ @include trailer(0.5); }
+    ul.sub{ padding: 0; }
+    ul.secondary-links{ @include leader(1); }
+  } 
+
+  @include respond-to('device-medium') {
+
+    div.four-across > div{
+      width: 50%;
+      margin-bottom: 0;
+    }
+  } 
+
+  @include respond-to('desktop-medium', max-width) {
+    div.wide{ padding-bottom: 0; }
+  }
+}
+
+#{$global-footer}{
+
+  #end{ @include rhythm-padding(1.5); }
+
+  #end p > a, 
+  #end p > a:hover, 
+  #end p > a:visited,
+  { text-decoration: underline; }
+
+  #end a, 
+  #end a:hover, 
+  #end a:visited,
+  { color: $blue; }
+
+  @include respond-to( 'device-medium', max-width){
+  
+    #end{
+      text-align: center;
+      img{ @include trailer; }
+    }
+  }
+
+  @include respond-to( 'device-medium'){
+    #end{ 
+      text-align: left;
+      img{ float: left; }
+    }
+  }
+
+  @include respond-to( 'desktop-large'){
+    #end span.copyright{ 
+      display: block;
+    }
+  }
+
+} /* end global-footer */
+
+
+// Content Area
+
+#introduction{
+
+  ul{
+    position: relative;
+  }
+
+  ul > li > a{
+    position: relative;
+  }
+
+   ul > li > a > h4 {
+    color: white;
+    @include single-text-shadow;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: $pad-medium;
+   }
+}
+
+#event-spotlight{ 
+  color: white;
+  background: $blue;
+}
+
+#volunteer{ 
+  color: white;
+  background: $purple;
+}
+
+#latest-sermon{ background: $tan; }
+
+#graphic-feature{
+  .two-across > div{ margin-bottom: 0; }
+  background: black;
+  img{ min-width: 100%; }
+  h4, p{ color: white; }
+}
+
+.feature-block{
+
+  > div.wrap-link a{
+    text-decoration: underline;
+  }
+
+  > div.h-space{
+    @include rhythm-padding(1);
+  }
+
+  h5,
+  p
+  { padding-right: $pad-small; }
+  
+  p.summary{ display: none; }
+
+  img, 
+  li
+  { @include trailer; }
+
+  @include respond-to('device-large') {
+
+    @include rhythm-padding(0, 1.5);
+
+    li{ margin-bottom: 0; }
+
+    div.wrap-link{ 
+      position: absolute;
+      top:0;
+      right: 0;
+    }
+  }
+
+  @include respond-to('desktop-medium') {
+    p.summary{ display: block; }
+  }
+}
+
+// Marquee and Owl Carousels
+
+#marquee-wrapper{
+  background: black;
+
+  .wrap-dots{ @include rhythm-padding; }
+
+  .message{
+    @include leader;
+
+    > div{ text-align: center; }
+
+    h3, p{
+      color: white;
+      @include text-shadow;
+    }
+
+    h3{ @include trailer(1/2); }
+
+    h3 span{ display: block; }
+
+    p{ @extend %fw-bold; }
+  }
+
+
+  @include respond-to('desktop-medium', max-width) {
+    .gradient-overlay::before{ display: none; }
+  }
+
+  @include respond-to('desktop-medium') {
+
+    .message, 
+    .wrap-dots{
+      position: absolute;
+      left: 0;
+      right: 0;
+    }
+
+    .wrap-dots{
+      bottom: 36px;
+      z-index: 5000;
+    }
+
+    .message{ bottom: 108px; }
+  }
+}
+
+// Article pages
+
+article.visit section,
+article.blog-post section,
+article.event-detail section > div,
+section.leading, 
+{
+
+  p:first-of-type:first-letter{
+    float: left;
+    color: $red;
+    @include adjust-font-size-to(46px, 1.85);
+    margin: 0 $pad-tiny 0 0;
+
+    @extend %secondary-font;
+  }
+}
+
+section.leading{
+  figure{ margin-top: 0; }
+}
+
+
+article{
+
+  section{ outline: none; }
+
+  div.wide{
+    position: relative;
+    z-index: 5000;
+    // background: rgba($tan, 0.5);
+  }
+
+  @include respond-to('desktop-medium', max-width) {
+    #aside-nav nav, 
+    #blog-posts{ display: none; }
+  }
+}
+
+.calendar-give-cta{
+  > li{
+    float: left;
+    width: 50%;
+  }
+
+  > li > a{ display: block; }
+}
+
+
+#virtual-tour{
+  background: black;
+  background: $purple; 
+
+  h3,
+  p{ color: white; }
+
+  #wrap-pagination{ background: white; }
+
+  @include respond-to('desktop-medium') {
+   #pagination ul.counter{ display: none; }
+   #pagination ul.numbers{ display: block; }
+  }
+}
+
+#wrap-pagination{
+  text-align: center;
+  @include rhythm-padding;
+}
+
+#pagination{
+  width: 100%;
+  
+  a{ display: block; }
+
+  li{ text-align: center; }
+  
+  > li,
+  > li.previous a
+  { float: left; }
+
+  > li.previous{ text-align: left; }
+
+  > li.next{
+    text-align: right;
+    > a{ float: right; }
+  }
+
+  > li{
+    &.previous,
+    &.next{ width: 10%;}
+
+    &.wrap-numbers{ width: 80%; }
+  }
+
+  li.active a{
+    color: $purple;
+    text-decoration: underline;
+  }
+  
+  > li > ul > li{
+    margin: 0 $pad-tiny;
+  }
+
+  > li > ul > li > a,
+  > li > ul > li > span{
+    @extend %primary-font-condensed;
+    @include adjust-font-size-to(24px);
+  }
+
+  ul.numbers{ display: none; }
+}
+
+.has-shadow{
+  position: relative;
+  @include box-shadow;
+  z-index: 10000;
+}
+
+.mfp-bg.mfp-ready{ z-index: 15000; }
+.mfp-wrap.mfp-gallery{ z-index: 16000; }
+
+// Blog
+
+ul.list-grid.three-across{
+
+  h5,
+  p
+  { padding-right: $pad-medium; }
+
+  img {
+    min-width: 100%;
+    @include trailer;
+  }
+
+  &.archive li{
+    @include trailer; ///////////////////////////
+
+    @include respond-to( 'desktop-medium' ){
+      @include trailer(2); ///////////////////////////////
+    }
+  }
+}
+
+#blog-posts{
+
+  h4{ text-align: center; }
+
+  ul.list-grid { margin-top: -$default-border-width; }
+  
+  &.home li{
+    @include respond-to( 'device-large', max-width ){
+      display: none;
+      &:first-child{ display: block; } 
+    }
+  }
+}
+// Aside CTA
+
+div.short #blog-posts{
+  img{ @include trailer; }
+}
+
+#latest-post{
+  > div { background: $purple; }
+  
+  > div > div {  margin-bottom: 0; }
+
+  p, h2{ color: white; }
+  h2{ text-align: left; }
+}
+
+article header{
+  text-align: center;
+
+  p.byline{ @include leader; } 
+}
+
+article.blog-post {
+  figure.hero{ margin: 0; }
+}
+
+#article-pagination{
+
+  > div{ width: 50%; }
+
+  div.arrow-left,
+  div.arrow-right
+  { display: none; }
+
+  div.previous, 
+  div.arrow-left{
+    float:left;
+    text-align: left;
+  }
+
+  div.next, 
+  div.arrow-right
+  {
+    float:right;
+    text-align: right;
+  }
+
+  @include respond-to( 'device-large', max-width){
+
+    div.previous, 
+    div.next{
+      p, h5{ display: none; }
+    }
+
+    div.arrow-left,
+    div.arrow-right
+    { display: block; }
+
+  }
+}
+
+#contact{
+
+  div.wide-left > div{ position: relative; }
+
+  div.wide{ z-index: 950; }
+  div.short{ z-index: 900; }
+
+  div.short > div{
+
+    h4, p{ @include trailer(1/2); }
+
+    a{ text-decoration: underline; } 
+  }
+
+  @include respond-to( 'desktop-medium', max-width){
+
+    div.short{
+      z-index: 975;
+      background: white;
+      @include trailing-border(1px, 0);
+    }
+
+    img{ display: none; }
+  }
+}
+
+#content{
+
+  .contact-list, 
+  .liturgical-music-schedule,
+  .concert-series,
+  .a-little-midday-music,
+  .adult-education,
+  .worship-schedule{
+    
+    > li, 
+    p.description{
+      @include trailer;
+
+      &:last-child{ margin-bottom: 0; }
+    }
+  }
+
+  ul.liturgical-music-schedule{
+    
+    @extend %font-small;
+
+    p, 
+    ul { margin-bottom: 0; }
+
+    li{
+      width: 100%;
+      overflow: hidden;
+    }
+
+    li > span.left,
+    li > span.right{
+      display: block;
+    }
+
+    li > ul{
+      @include leader(1/2);
+      padding: 0;
+    }
+
+    li > ul > li{
+      @include leader(1/4);
+    }
+
+    span.right{
+      font-style: italic;
+    }
+
+    span.description{
+      display: block;
+      @include leader(1/2);
+      max-width: em(640px);
+
+    }
+
+    @include respond-to( 'device-large' ) {
+
+      li > ul > li{ @include leader(0); }
+
+      li > span.left,
+      li > span.right{
+        float: left;
+        width: em(320px);
+      }
+
+    }
+  }
+
+  .worship-schedule{
+    
+    > li{
+      @include trailer(0.5);
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    > li > p > span{
+      display:block;
+        &.time{ @extend %fw-bold; }
+    }
+
+    @include respond-to( 'device-large' ) {
+
+      > li{ @include trailer(0); }
+
+      > li > p > span{
+        float: left;
+
+        &.time{
+          width: em(120px);
+        }
+      }
+
+    }
+  }
+}
+
+#getting-here{
+  div.map img{ min-width: 100%; }
+
+  div.directions{
+    p{ margin-bottom: $pad-tiny; }
+  }
+
+  div.wheelchair-access{
+    @include leader(1);
+
+    img{ float: left; margin-right: $pad-small; }
+    p{ 
+      @extend %font-small;
+      @include leader(1/2);
+    }
+  }
+}
+
+// donate buttons
+
+#content #give-online{
+  
+  h2, 
+  p
+  { text-align: center; }
+
+  h2{ color: $green; }
+
+}
+
+ul.donate-buttons {
+
+  a{ display: block; }
+
+  li{
+    padding-left: $pad-small;
+    padding-right: $pad-small;
+  
+    &:last-child{
+    margin-right: 0;
+    }
+  }
+
+  img{ max-height: em(72px); }
+
+  @include respond-to( 'device-large', max-width ) {
+
+    li{ 
+      margin-bottom: $pad-small; 
+
+      &:last-child{
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+#gallery{
+  a > img{ min-width: 100%; } 
+}
