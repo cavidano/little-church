@@ -37,11 +37,11 @@ return array(
         )
     ),
     
-    'www.littlechurch.org' => array(
+    'littlechurch.org' => array(
         'devMode' => false,
         
         'environmentVariables' => array(
-            'baseUrl'  => 'http://www.littlechurch.org/',
+            'baseUrl'  => 'https://www.littlechurch.org/',
         )
     )
 );
